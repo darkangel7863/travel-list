@@ -10,7 +10,6 @@ export default function Form({ onAddItems }) {
     const newItem = { description, quantity, packed: false, id: Date.now() };
 
     onAddItems(newItem);
-
     setDescription('');
     setQuantity(1);
   }
@@ -26,7 +25,6 @@ export default function Form({ onAddItems }) {
             {num}
           </option>
         ))}
-        \
       </select>
       <input
         type="text"

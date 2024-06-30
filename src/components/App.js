@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Logo from './Logo';
+import Logo from './logo';
 import Form from './Form';
 import PackingList from './PackingList';
 import Stats from './Stats';
@@ -20,7 +20,7 @@ export default function App() {
       )
     );
   }
-  function handleClearList() {
+  function handleClearItems() {
     const confirmed = window.confirm(
       'Are you sure you want to delete all items?'
     );
@@ -34,7 +34,7 @@ export default function App() {
         items={items}
         onDeleteItem={handleDeleteItem}
         onToggleItem={handleToggleItem}
-        onClearItems={handleClearList}
+        onClearItems={handleClearItems}
       />
       <Stats items={items} />
     </div>
