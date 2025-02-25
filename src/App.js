@@ -5,29 +5,45 @@ const initialItems = [
   { id: 2, description: 'Socks', quantity: 12, packed: false },
   { id: 3, description: 'Charger', quantity: 1, packed: true },
 ];
+
 export default function App() {
+  const [items, setItems] = useState([]);
+
+  function handleAddItems(item) {
+    setItems(items => [...items, item]);
+  }
+
+  function handleDeleteItem(id) {
+    setItems(items => items.filter(item => item.id !== id));
+  }
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
+      <Form onAddItems={handleAddItems} />
+      <PackingList items={items} onDeleteItems={handleDeleteItem} />
       <Stats />
     </div>
   );
 }
+
 function Logo() {
   return <h1>🌴 Far Away 👜</h1>;
 }
-function Form() {
+
+function Form({ onAddItems }) {
   const [description, setDescription] = useState('');
   const [quantity, setQuantity] = useState(1);
+
   function handleSubmit(e) {
     e.preventDefault();
     if (!description) return;
     const newItem = { description, quantity, packed: false, id: Date.now() };
+
     setDescription('');
     setQuantity(1);
+    onAddItems(newItem);
   }
+
   return (
     <form className="add-form" onSubmit={handleSubmit}>
       <h3>What do you need for your 😍 trip?</h3>
@@ -51,28 +67,30 @@ function Form() {
     </form>
   );
 }
-function PackingList() {
+
+function PackingList({ items, onDeleteItems }) {
   return (
     <div className="list">
       <ul>
         {items.map(item => (
-          <Item item={item} key={item.id} />
+          <Item item={item} key={item.id} onDeleteItems={onDeleteItems} />
         ))}
       </ul>
     </div>
   );
 }
 
-function Item({ item }) {
+function Item({ item, onDeleteItems }) {
   return (
     <li>
       <span style={item.packed ? { textDecoration: 'line-through' } : {}}>
         {item.quantity} {item.description}
       </span>
-      <button>❌</button>
+      <button onClick={() => onDeleteItems(item.id)}>❌</button>
     </li>
   );
 }
+
 function Stats() {
   return (
     <footer className="stats">
